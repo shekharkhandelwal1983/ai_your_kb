@@ -51,8 +51,12 @@ elif llm_provider == 'anthropic':
         st.info("Please add your Anthropic API key to continue.")
         st.stop()
 elif llm_provider == 'groq':
-    llm = ChatGroq(model_name=selected_model, api_key = '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')
-    embeddings_model = HuggingFaceEmbeddings()
+    if api_key:
+        llm = ChatGroq(model_name=selected_model, api_key=api_key)
+        embeddings_model = HuggingFaceEmbeddings()
+    if not api_key:
+        st.info("Please add your Groq API key to continue.")
+        st.stop()
 else:
     llm = ollama(model=selected_model)
     embeddings_model = OllamaEmbeddings()
